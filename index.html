@@ -33,16 +33,16 @@
         .item-details span { color: #d4af37; font-weight: bold; font-size: 1.1rem; }
 
         .field { margin-bottom: 15px; }
-        label { display: block; font-size: 0.65rem; color: #777; text-transform: uppercase; margin-bottom: 6px; padding-left: 5px; letter-spacing: 1px; }
+        label { display: block; font-size: 0.65rem; color: #bbb; text-transform: uppercase; margin-bottom: 6px; padding-left: 5px; letter-spacing: 1px; }
         
-        /* ВИПРАВЛЕНО: БІЛИЙ КОЛІР ТЕКСТУ ПРИ ВВОДІ */
+        /* ВИПРАВЛЕНО: ЧІТКИЙ БІЛИЙ ТЕКСТ */
         input, textarea, select { 
-            width: 100%; padding: 14px; background: #151515; border: 1px solid #222; 
+            width: 100%; padding: 14px; background: #151515; border: 1px solid #333; 
             border-radius: 10px; color: #ffffff !important; font-size: 1rem; box-sizing: border-box; 
-            font-family: 'Montserrat'; 
+            font-family: 'Montserrat'; outline: none;
         }
-        input::placeholder, textarea::placeholder { color: #444; }
-        input:focus, select:focus, textarea:focus { border-color: #eb3b1e; outline: none; background: #1a1a1a; }
+        input::placeholder, textarea::placeholder { color: #666; }
+        input:focus, select:focus, textarea:focus { border-color: #eb3b1e; background: #1a1a1a; }
 
         .type-selector { display: flex; gap: 10px; margin-bottom: 20px; }
         .type-option { flex: 1; text-align: center; padding: 12px; border: 1px solid #222; border-radius: 10px; cursor: pointer; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
@@ -52,7 +52,6 @@
         .submit-btn:active { transform: scale(0.98); }
         .footer-brand { text-align: center; margin-top: 25px; color: #1a1a1a; font-weight: 900; letter-spacing: 8px; font-size: 20px; }
 
-        /* MODAL */
         #thanks-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; justify-content: center; align-items: center; }
         .modal-content { background: #111; padding: 40px; border-radius: 30px; border: 1px solid #eb3b1e; text-align: center; max-width: 280px; }
     </style>
@@ -158,7 +157,6 @@
         document.getElementById('flowerPrice').innerText = fPrice.toLocaleString() + ' UAH';
     }
 
-    // Авто-підстановка +380
     document.getElementById('phone').addEventListener('input', (e) => {
         if (!e.target.value.startsWith('+380')) e.target.value = '+380';
     });
@@ -171,7 +169,6 @@
         const comment = document.getElementById('comment').value.trim();
         const phoneRegex = /^\+380\d{9}$/;
 
-        // ПЕРЕВІРКА ВСІХ ПОЛІВ
         if(!appliances || !name || !date || !phoneRegex.test(phone)) {
             if (!appliances) alert('Оберіть кількість приборів');
             else if (!name) alert('Введіть ім\'я замовника');
@@ -193,17 +190,12 @@
                         `💰 **СУМА:** ${fPrice} грн`;
 
         try {
-            const response = await fetch(`https://api.telegram.org/bot8420074368:AAEQNNufw-trf8yC_rg22vKakKEHseAvp6s/sendMessage`, {
+            await fetch(`https://api.telegram.org/bot8420074368:AAEQNNufw-trf8yC_rg22vKakKEHseAvp6s/sendMessage`, {
                 method: 'POST', headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ chat_id: '-1003861474618', text: message, parse_mode: 'Markdown' })
             });
-            if(response.ok) {
-                document.getElementById('thanks-modal').style.display='flex';
-            } else {
-                alert('Помилка відправки в Telegram.');
-            }
-        } catch (e) { alert('Помилка з\'єднання з сервером'); }
-        finally { document.getElementById('sendBtn').innerText = 'Підтвердити замовлення'; }
+            document.getElementById('thanks-modal').style.display='flex';
+        } catch (e) { alert('Помилка з\'єднання'); }
     }
 </script>
 </body>

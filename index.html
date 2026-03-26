@@ -22,7 +22,7 @@
         .price-tag { font-size: 18px; font-weight: 700; color: #d4af37; margin-bottom: 12px; }
         .description { font-size: 13px; color: #999; line-height: 1.6; margin-bottom: 25px; }
 
-        /* ФОРМА (ПРЕМІУМ YOKI) */
+        /* ФОРМА ОФОРМЛЕННЯ */
         #order-page { display: none; width: 100%; padding-top: 10px; }
         .order-card { background: #0a0a0a; border-radius: 24px; padding: 25px; border: 1px solid #1a1a1a; text-align: left; box-shadow: 0 15px 35px rgba(0,0,0,0.8); }
         h2 { color: #d4af37; text-align: center; text-transform: uppercase; letter-spacing: 2px; margin: 0 0 20px 0; font-size: 1.2rem; }
@@ -33,9 +33,16 @@
         .item-details span { color: #d4af37; font-weight: bold; font-size: 1.1rem; }
 
         .field { margin-bottom: 15px; }
-        label { display: block; font-size: 0.65rem; color: #555; text-transform: uppercase; margin-bottom: 6px; padding-left: 5px; letter-spacing: 1px; }
-        input, textarea, select { width: 100%; padding: 14px; background: #151515; border: 1px solid #222; border-radius: 10px; color: #fff; font-size: 1rem; box-sizing: border-box; font-family: 'Montserrat'; }
-        input:focus, select:focus { border-color: #eb3b1e; outline: none; background: #1a1a1a; }
+        label { display: block; font-size: 0.65rem; color: #777; text-transform: uppercase; margin-bottom: 6px; padding-left: 5px; letter-spacing: 1px; }
+        
+        /* ВИПРАВЛЕНО: БІЛИЙ КОЛІР ТЕКСТУ ПРИ ВВОДІ */
+        input, textarea, select { 
+            width: 100%; padding: 14px; background: #151515; border: 1px solid #222; 
+            border-radius: 10px; color: #ffffff !important; font-size: 1rem; box-sizing: border-box; 
+            font-family: 'Montserrat'; 
+        }
+        input::placeholder, textarea::placeholder { color: #444; }
+        input:focus, select:focus, textarea:focus { border-color: #eb3b1e; outline: none; background: #1a1a1a; }
 
         .type-selector { display: flex; gap: 10px; margin-bottom: 20px; }
         .type-option { flex: 1; text-align: center; padding: 12px; border: 1px solid #222; border-radius: 10px; cursor: pointer; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
@@ -62,7 +69,7 @@
                 <h3>БУКЕТ ЧЕРВОНИХ ТРОЯНД ТА СЕТ "ФІЛАДЕЛЬФІЯ"</h3>
                 <div class="brand-sub">YOKI</div>
                 <div class="price-tag">3 730 UAH</div>
-                <p class="description">Символ кохання та пристрасті з безпрограшною класикою.</p>
+                <p class="description">Жест, який запам'ятовується. Розкішний букет червоних троянд від Flower Lab Vlada - символ кохання та пристрасті з безпрограшною класикою - сетом «Філадельфія» від YOKI</p>
                 <button class="submit-btn" onclick="openOrder('Букет червоних троянд', 3730, 'IMG_0695.PNG')">Оформити замовлення</button>
             </div>
         </div>
@@ -73,7 +80,7 @@
                 <h3>БУКЕТ БІЛИХ ТРОЯНД ТА СЕТ "ФІЛАДЕЛЬФІЯ"</h3>
                 <div class="brand-sub">YOKI</div>
                 <div class="price-tag">3 730 UAH</div>
-                <p class="description">Символ щирості, ніжності та світлих емоцій.</p>
+                <p class="description">Ідеальний дует для особливого вечора, того самого зізнання. Витончений букет білих троянд від Flower Lab Vlada - символ щирості, ніжності, світлих емоцій та вишукана класика - сет «Філадельфія» від YOKI</p>
                 <button class="submit-btn" onclick="openOrder('Букет білих троянд', 3730, 'IMG_0693.PNG')">Оформити замовлення</button>
             </div>
         </div>
@@ -84,7 +91,7 @@
                 <h3>БУКЕТ АМУР ТА СЕТ "ФІЛАДЕЛЬФІЯ"</h3>
                 <div class="brand-sub">YOKI</div>
                 <div class="price-tag">3 730 UAH</div>
-                <p class="description">Емоції, що говорять тихо, але впевнено.</p>
+                <p class="description">Емоції, що говорять тихо, але впевнено. Збірний букет «Амур» від Flower Lab Vlada - про ніжність і увагу до деталей у поєднанні з тією самою класикою - сетом «Філадельфія» від YOKI</p>
                 <button class="submit-btn" onclick="openOrder('Букет Амур', 3730, 'IMG_0694.PNG')">Оформити замовлення</button>
             </div>
         </div>
@@ -128,7 +135,7 @@
     </div>
 </div>
 
-<div id="thanks-modal"><div class="modal-content"><h2>ДЯКУЄМО!</h2><p>Замовлення прийнято!</p><button class="submit-btn" onclick="location.reload()">ОК</button></div></div>
+<div id="thanks-modal"><div class="modal-content"><h2>ДЯКУЄМО!</h2><p>Замовлення прийнято! Ми зв'яжемося з вами.</p><button class="submit-btn" onclick="location.reload()">ОК</button></div></div>
 
 <script>
     let curItem="", bPrice=0, fPrice=0, oType='delivery';
@@ -151,6 +158,7 @@
         document.getElementById('flowerPrice').innerText = fPrice.toLocaleString() + ' UAH';
     }
 
+    // Авто-підстановка +380
     document.getElementById('phone').addEventListener('input', (e) => {
         if (!e.target.value.startsWith('+380')) e.target.value = '+380';
     });
@@ -163,8 +171,12 @@
         const comment = document.getElementById('comment').value.trim();
         const phoneRegex = /^\+380\d{9}$/;
 
+        // ПЕРЕВІРКА ВСІХ ПОЛІВ
         if(!appliances || !name || !date || !phoneRegex.test(phone)) {
-            alert(phoneRegex.test(phone) ? 'Заповніть всі поля та оберіть кількість приборів' : 'Введіть коректний номер +380XXXXXXXXX');
+            if (!appliances) alert('Оберіть кількість приборів');
+            else if (!name) alert('Введіть ім\'я замовника');
+            else if (!phoneRegex.test(phone)) alert('Введіть коректний номер +380XXXXXXXXX');
+            else if (!date) alert('Оберіть дату та час');
             return;
         }
 
@@ -181,12 +193,17 @@
                         `💰 **СУМА:** ${fPrice} грн`;
 
         try {
-            await fetch(`https://api.telegram.org/bot8420074368:AAEQNNufw-trf8yC_rg22vKakKEHseAvp6s/sendMessage`, {
+            const response = await fetch(`https://api.telegram.org/bot8420074368:AAEQNNufw-trf8yC_rg22vKakKEHseAvp6s/sendMessage`, {
                 method: 'POST', headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ chat_id: '-1003861474618', text: message, parse_mode: 'Markdown' })
             });
-            document.getElementById('thanks-modal').style.display='flex';
-        } catch (e) { alert('Помилка з\'єднання'); }
+            if(response.ok) {
+                document.getElementById('thanks-modal').style.display='flex';
+            } else {
+                alert('Помилка відправки в Telegram.');
+            }
+        } catch (e) { alert('Помилка з\'єднання з сервером'); }
+        finally { document.getElementById('sendBtn').innerText = 'Підтвердити замовлення'; }
     }
 </script>
 </body>
